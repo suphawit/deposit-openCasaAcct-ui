@@ -1,0 +1,378 @@
+<form [formGroup]="infoRequestOpenAccountFormGroup">
+  <br>
+  <mat-card class="examplex">
+    <mat-card-title class="title">
+      ข้อมูลเพิ่มเติมเพื่อประกอบคำขอเปิดบัญชีเงินฝากและสมัครใช้บริการด้านการเงินผ่านช่องทางอิเล็กทรอนิกส์
+    </mat-card-title>
+
+    <!-- <mat-card class="example">
+      <mat-grid-list cols="6" rowHeight="50px">
+        <mat-grid-tile *ngFor="let info of openAccountInfos" [colspan]="info.cols" [rowspan]="info.rows"
+          [style.background]="info.color">
+          {{info.text}}
+        </mat-grid-tile>
+      </mat-grid-list>
+    </mat-card> -->
+    <mat-card>
+      <table>
+        <tr>
+          <td class="example" style="width: 20% !important;">ชื่อ-นามสกุล</td>
+          <td class="example" style="width: 20% !important">{{ customerData.customerProfile.customerFullNameTh }}</td>
+          <td class="example" style="width: 20% !important">เลขประจำตัวประชาชน/เลขหนังสือเดินทาง</td>
+          <td class="example" style="width: 20% !important">{{ customerData.customerProfile.idNo }}</td>
+          <td class="example hidden" style="width: 20% !important">("ลูกค้า"หรือ"ผู้ขอใช้บริการ")</td>
+        </tr>
+        <tr>
+          <p></p>
+        </tr>
+        <tr> 
+          <!-- white-space: nowrap !important -->
+          <td class="example" style="width: 15% !important">English Name</td>
+          <td class="example" style="width: 20% !important;" colspan="4">{{ customerData.customerProfile.customerFullNameEn }}</td>
+        </tr>
+      </table>
+    </mat-card>
+    <br>
+
+    <mat-card class="example">
+      <mat-form-field class="mailing-select group">
+        <mat-label>สถานที่ติดต่อทางไปรษณีย์</mat-label>
+        <mat-select class="mat-select-panelx" [(value)]="selectedAddress"
+          (selectionChange)="changeAddress(selectedAddress)" formControlName="addressSeqCtrl">
+          <mat-optgroup *ngFor="let addressGroup of addressGroups" [label]="addressGroup.groupName">
+            <mat-option [value]="addressGroup.address.seq">
+              {{addressGroup.address.fullAddress}}
+            </mat-option>
+          </mat-optgroup>
+        </mat-select>
+      </mat-form-field>
+
+      &nbsp;
+
+      <button mat-raised-button class="group" type="button"
+        (click)="openAddressPanel(selectedAddress)"><span class="button-size">{{btnAddAddressView}}</span></button>
+
+      <br><br>
+
+      <mat-card *ngIf="!selectedAddress">
+        <mat-form-field class="group">
+          <mat-label>รูปแบบที่อยู่</mat-label>
+          <mat-select [(value)]="checkAddessFormat" (selectionChange)="changAddressFormat(checkAddessFormat)">
+            <mat-option *ngFor="let addressFormat of addressFormats" [value]="addressFormat.value">
+              {{addressFormat.viewValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+
+        <mat-card *ngIf="checkAddessFormat === 'L'" formGroupName="customerAddressGroup">
+          <mat-form-field class="mat-select-panelx group">
+            <mat-label>เลขที่</mat-label>
+            <input class="height-inputForm" matInput type="text" placeholder="" formControlName="houseNumberCtrl"
+              (change)="change($event)" maxlength="30" required autocomplete="off">
+            <mat-error
+              *ngIf="infoRequestOpenAccountFormGroup.get('customerAddressGroup').get('houseNumberCtrl').hasError('required')">
+              กรุณาระบุเลขที่
+            </mat-error>
+          </mat-form-field>
+
+          &nbsp;
+
+          <mat-form-field class="mat-select-panelx group">
+            <mat-label>หมู่ที่</mat-label>
+            <input class="height-inputForm" matInput type="text" placeholder="" formControlName="mooCtrl"
+              (change)="change($event)" maxlength="5" autocomplete="off">
+          </mat-form-field>
+
+          &nbsp;
+
+          <mat-form-field class="mat-select-panelx group">
+            <mat-label>ประเภทที่อยู่</mat-label>
+            <mat-select class="height-inputForm" formControlName="buildingLabelCtrl" (selectionChange)="change($event)"
+              (selectionChange)="chengeBuilding($event.value)">
+              <mat-option *ngFor="let building of buildingList" [value]="building.value">
+                {{building.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          &nbsp;
+
+          <mat-form-field class="mat-select-panelx group">
+            <mat-label>หมู่บ้าน/อาคาร/โรงเรียน/วัด</mat-label>
+            <input class="height-inputForm" matInput type="text" placeholder="" formControlName="buildingCtrl"
+              (change)="change($event)" maxlength="30" required autocomplete="off">
+            <mat-error
+              *ngIf="infoRequestOpenAccountFormGroup.get('customerAddressGroup').get('buildingCtrl').hasError('required')">
+              กรุณาระบุประเภทที่อยู่
+            </mat-error>
+          </mat-form-field>
+
+          &nbsp;
+
+          <mat-form-field class="mat-select-panelx group">
+            <mat-label>ชั้น</mat-label>
+            <input class="height-inputForm" matInput type="text" placeholder="" formControlName="floorNumberCtrl"
+              (change)="change($event)" maxlength="6" autocomplete="off">
+          </mat-form-field>
+
+          &nbsp;
+
+          <mat-form-field class="mat-select-panelx group">
+            <mat-label>ห้อง</mat-label>
+            <input class="height-inputForm" matInput type="text" placeholder="" formControlName="roomNumberCtrl"
+              (change)="change($event)" maxlength="21" autocomplete="off">
+          </mat-form-field>
+
+          <mat-form-field class="mat-select-panelx group">
+            <mat-label>ซอย</mat-label>
+            <input class="height-inputForm" matInput type="text" placeholder="" formControlName="soiCtrl"
+              (change)="change($event)" maxlength="37" autocomplete="off">
+          </mat-form-field>
+
+          &nbsp;
+
+          <mat-form-field class="mat-select-panelx group">
+            <mat-label>ถนน</mat-label>
+            <input class="height-inputForm" class="height-inputForm" matInput type="text" placeholder=""
+              (change)="change($event)" formControlName="roadCtrl" maxlength="37" autocomplete="off">
+          </mat-form-field>
+
+          &nbsp;
+
+          <mat-form-field class="mat-select-panelx group">
+            <mat-label>รหัสไปรษณีย์</mat-label>
+            <input class="height-inputForm" matInput type="text" placeholder="" formControlName="postalCodeCtrl"
+              (change)="change($event)" (keyup)="changePostal($event.target.value)" minlength="5" maxlength="5" required
+              autocomplete="off">
+            <mat-error
+              *ngIf="infoRequestOpenAccountFormGroup.get('customerAddressGroup').get('postalCodeCtrl').hasError('required')">
+              กรุณาระบุรหัสไปรษณีย์
+            </mat-error>
+          </mat-form-field>
+
+          &nbsp;
+
+          <mat-form-field class="mat-select-panelx group">
+            <mat-label>จังหวัด</mat-label>
+            <mat-select [(value)]="selectedProvince" (selectionChange)="changeProvince()"
+              (selectionChange)="change($event)" formControlName="provinceCodeCtrl" required>
+              <mat-option *ngFor="let province of provinceList" [value]="province.value">
+                {{province.viewValue}}
+              </mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="infoRequestOpenAccountFormGroup.get('customerAddressGroup').get('provinceCodeCtrl').hasError('required')">
+              กรุณาระบุจังหวัด
+            </mat-error>
+          </mat-form-field>
+
+          &nbsp;
+
+          <mat-form-field class="mat-select-panelx group">
+            <mat-label>เขต/อำเภอ</mat-label>
+            <mat-select [(value)]="selectedDistrict" (selectionChange)="changeDistrict()"
+              (selectionChange)="change($event)" formControlName="districtCodeCtrl" required>
+              <mat-option *ngFor="let district of districtList" [value]="district.value">
+                {{district.viewValue}}
+              </mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="infoRequestOpenAccountFormGroup.get('customerAddressGroup').get('districtCodeCtrl').hasError('required')">
+              กรุณาระบุเขต/อำเภอ
+            </mat-error>
+          </mat-form-field>
+
+          &nbsp;
+
+          <mat-form-field class="mat-select-panelx group">
+            <mat-label>แขวง/ตำบล</mat-label>
+            <mat-select [(value)]="selectedSubdistrict" (selectionChange)="changeSubDistrict()"
+              (selectionChange)="change($event)" formControlName="selectSubdistrictCodeCtrl" required>
+              <mat-option *ngFor="let subdistrict of subdistrictList"
+                [value]="subdistrict.value + subdistrict.postalCode">
+                {{subdistrict.viewValue}}
+              </mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="infoRequestOpenAccountFormGroup.get('customerAddressGroup').get('selectSubdistrictCodeCtrl').hasError('required')">
+              <!-- *ngIf="infoRequestOpenAccountFormGroup.get('customerAddressGroup').get('subdistrictCodeCtrl').hasError('required')"> -->
+              กรุณาระบุแขวง/ตำบล
+            </mat-error>
+          </mat-form-field>
+
+          &nbsp;
+
+          <mat-form-field class="mat-select-panelx group">
+            <input class="height-inputForm" matInput readonly="true" type="text" placeholder="ประเทศ"
+              formControlName="countryCodeCtrl">
+          </mat-form-field>
+
+          &nbsp;
+
+          <div *ngIf="checkAddressList">
+            <mat-error>
+              <p style="text-align: center !important">ที่อยู่นี้มีอยู่แล้ว กรุณาระบุที่อยู่ใหม่อีกครั้ง</p>
+            </mat-error>
+          </div>
+        </mat-card>
+
+        <mat-card *ngIf="checkAddessFormat === 'F'">
+          <mat-card formGroupName="addressLineGroup">
+            <mat-form-field class="address-line">
+              <mat-label>Address Line 1:</mat-label>
+              <input class="height-inputForm" matInput type="text" placeholder="" formControlName="addressLineCtrl1"
+                maxlength="40" required autocomplete="off">
+              <mat-error
+                *ngIf="infoRequestOpenAccountFormGroup.get('addressLineGroup').get('addressLineCtrl1').hasError('required')">
+                กรุณาระบุ Address Line</mat-error>
+            </mat-form-field>
+
+            <br>
+
+            <mat-form-field class="address-line">
+              <mat-label>Address Line 2:</mat-label>
+              <input class="height-inputForm" matInput type="text" placeholder="" formControlName="addressLineCtrl2"
+                maxlength="40" autocomplete="off">
+            </mat-form-field>
+
+            <br>
+
+            <mat-form-field class="address-line">
+              <mat-label>Address Line 3:</mat-label>
+              <input class="height-inputForm" matInput type="text" placeholder="" formControlName="addressLineCtrl3"
+                maxlength="40" autocomplete="off">
+            </mat-form-field>
+
+            <br>
+
+            <mat-form-field class="address-line">
+              <mat-label>Address Line 4:</mat-label>
+              <input class="height-inputForm" matInput type="text" placeholder="" formControlName="addressLineCtrl4"
+                maxlength="40" autocomplete="off">
+            </mat-form-field>
+
+            <br>
+
+            <mat-form-field class="address-line">
+              <mat-label>Address Line 5:</mat-label>
+              <input class="height-inputForm" matInput type="text" placeholder="" formControlName="addressLineCtrl5"
+                maxlength="40" autocomplete="off">
+            </mat-form-field>
+
+            <br>
+
+            <mat-form-field class="address-line">
+              <mat-label>Address Line 6:</mat-label>
+              <input class="height-inputForm" matInput type="text" placeholder="" formControlName="addressLineCtrl6"
+                maxlength="40" autocomplete="off">
+            </mat-form-field>
+
+            <br>
+
+          </mat-card>
+
+          <mat-card formGroupName="customerAddressGroup">
+            <mat-form-field class="address-line">
+              <mat-label>Country:</mat-label>
+              <mat-select [(value)]="selectedcountryTypes" (selectionChange)="changeCountryType(selectedcountryTypes)"
+                formControlName="countryCode" required>
+                <mat-option *ngFor="let country of countryList" [value]="country.value">
+                  {{country.viewValue}}
+                </mat-option>
+              </mat-select>
+              <mat-error
+                *ngIf="infoRequestOpenAccountFormGroup.get('customerAddressGroup').get('countryCode').hasError('required')">
+                กรุณาระบุ Country </mat-error>
+            </mat-form-field>
+
+          </mat-card>
+
+        </mat-card>
+      </mat-card>
+    </mat-card>
+    <br>
+
+    <mat-card class="example">
+      <mat-panel-title class="title-label">
+        หมายเลขโทรศัพท์และช่องทางการติดต่อทางอิเล็กทรอนิกส์
+      </mat-panel-title>
+
+      &nbsp;&nbsp;
+
+      <span class="nowrapx">
+        <span class="nowrap">
+          <mat-form-field class="group">
+            <mat-label>Email Address</mat-label>
+            <mat-select [(value)]="selectedEmail" (selectionChange)="changeEmail(selectedEmail)"
+              formControlName="emailSeqCtrl">
+              <mat-option *ngFor="let email of emailList" [value]="email.value">
+                {{email.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          &nbsp;
+
+          <mat-form-field *ngIf="selectedEmail === '' || selectedEmail === undefined" class="group" appearance="inline">
+            <mat-form-field  class="group">
+              <input matInput type="text" formControlName="emailCtrl" [email]="true" (change)="change($event)" required
+                autocomplete="off">
+              <mat-error *ngIf="infoRequestOpenAccountFormGroup.get('emailCtrl').hasError('required')">
+                กรุณาระบุ Email Address
+              </mat-error>
+              <mat-error *ngIf="infoRequestOpenAccountFormGroup.get('emailCtrl').hasError('email')">
+                Email Address ไม่ถูกต้อง
+              </mat-error>
+            </mat-form-field>
+            <div *ngIf="checkEmailList">
+              <mat-error>
+                Email Address มีอยู่แล้ว กรุณาระบุ Email Address ใหม่
+              </mat-error>
+            </div>
+          </mat-form-field>
+        </span>
+
+        &nbsp;
+
+        <span class="nowrap">
+          <mat-form-field class="group">
+            <mat-label>โทรศัพท์มือถือ</mat-label>
+            <mat-select [(value)]="selectedMobile" (selectionChange)="changeMobile(selectedMobile)"
+              formControlName="mobileSeqCtrl">
+              <mat-option *ngFor="let mobile of mobileList" [value]="mobile.value">
+                {{mobile.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          &nbsp;
+
+          <mat-form-field *ngIf="selectedMobile === '' || selectedMobile === undefined" class="group" appearance="inline">
+            <mat-form-field class="group">
+              <input matInput type="text" formControlName="mobileCtrl" (change)="change($event)" required maxlength="10"
+                autocomplete="off">
+              <mat-error *ngIf="infoRequestOpenAccountFormGroup.get('mobileCtrl').hasError('required')">
+                กรุณาระบุหมายเลขมือถือ
+              </mat-error>
+              <mat-error *ngIf="infoRequestOpenAccountFormGroup.get('mobileCtrl').hasError('pattern')">
+                หมายเลขมือถือไม่ถูกต้อง
+              </mat-error>
+            </mat-form-field>
+            <div *ngIf="checkMobileList">
+              <mat-error>
+                หมายเลขมือถือมีอยู่แล้ว กรุณาระบุ หมายเลขมือถือใหม่
+              </mat-error>
+            </div>
+          </mat-form-field>
+        </span>
+      </span>
+
+      &nbsp;
+    </mat-card>
+    <mat-card-actions style="text-align:right">
+      <button mat-raised-button matStepperNext
+        [disabled]="checkAddressList || checkEmailList || checkMobileList">Next</button>
+    </mat-card-actions>
+  </mat-card>
+</form>

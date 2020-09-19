@@ -1,0 +1,75 @@
+<!-- MODAL CENTER -->
+<div *ngIf="data.isShow === 'MODAL_CENTER'">
+  <p mat-dialog-title><b>{{data.param.responseMessage}}</b></p>
+  <div mat-dialog-actions>
+    <button mat-raised-button color="primary" (click)="onCloseDialog(data.param.responseCode)">OK</button>
+  </div>
+</div>
+
+<!-- COR RESPONSE POPUP -->
+<div *ngIf="data.isShow === 'SHOW_REFERENCE'">
+  <span mat-dialog-actions>
+    <mat-label>Reference No : </mat-label>&nbsp;&nbsp;<mat-label>{{data.refNo}}</mat-label>
+  </span>
+  <br>
+</div>
+<div *ngIf="data.isShow === 'SHOW_REFERENCE' || data.isShow === 'SHOW_RESPONSE'">
+  <span mat-dialog-content>
+    <mat-label>{{data.param.responseCode}} :</mat-label>&nbsp;&nbsp;<mat-label>{{data.param.responseMessage}}
+    </mat-label>
+  </span>
+  <div mat-dialog-actions>
+    <button mat-raised-button color="primary" (click)="onCloseDialog(data.param.responseCode)">OK</button>
+  </div>
+</div>
+
+<!-- RESEND EMAIL POPUP -->
+<div *ngIf="data.isShow === 'resendEmail'">
+  <span *ngIf="data.status === 'fail'" mat-dialog-content>
+    <mat-label>{{data.param.responseCode}} :</mat-label>&nbsp;&nbsp;<mat-label>{{data.param.responseMessage}}
+    </mat-label>
+  </span>
+  <span *ngIf="data.param === 'success'" mat-dialog-content>
+    <mat-label>ส่ง E-Mail สำเร็จ</mat-label>
+  </span>
+  <span *ngIf="data.param === 'data not found'" mat-dialog-title>เกิดข้อผิดพลาดในระบบ กรุณาติดต่อเจ้าหน้าที่</span>
+</div>
+<div mat-dialog-actions *ngIf="data.isShow === 'resendEmail'">
+  <button mat-raised-button color="primary" (click)="resendEmailBack()">OK</button>
+</div>
+
+<!-- CONFIRM POPUP -->
+<div *ngIf="data.isShow === 'confirm'">
+  <h1 mat-dialog-content>ยืนยันการส่ง E-Mail ใช่หรือไม่</h1>
+</div>
+<div mat-dialog-actions *ngIf="data.isShow === 'confirm'">
+  <button mat-raised-button color="primary" (click)="confirm()">OK</button>
+  <button mat-raised-button color="warn" (click)="cancel()">Cancel</button>
+</div>
+
+<!-- CONFIRM REDIRECT TERM & CONDITION -->
+<div *ngIf="data.isShow === 'Term & Condition'">
+  <span mat-dialog-content>ไม่สามารถดำเนินการเปิดบัญชีได้ เนื่องจากลูกค้าปฎิเสธเงื่อนไขการให้บริการ ต้องการยืนยันการทำรายการหรือไม่</span>
+</div>
+<div mat-dialog-actions *ngIf="data.isShow === 'Term & Condition'">
+  <button mat-raised-button color="primary" (click)="confirm()">ยืนยัน</button>
+  <button mat-raised-button color="warn" (click)="cancel()">ยกเลิก</button>
+</div>
+
+<!-- VERIFY POPUP -->
+<div *ngIf="data.isShow === 'verify'">
+  <div
+    *ngIf="data.param.responseCode != 'EAPP-E-9005' && data.param.responseCode != 'EAPP-E-9032' && data.param.responseCode != 'EAPP-E-9033' && data.param.responseCode != 'EAPP-E-9031'">
+    <span mat-dialog-actions>
+      <mat-label>Reference No : </mat-label>&nbsp;&nbsp;<mat-label>{{data.refNo}}</mat-label>
+    </span>
+    <br>
+  </div>
+  <p mat-dialog-content>
+    <mat-label>{{data.param.responseCode}} :</mat-label>&nbsp;&nbsp;<mat-label>{{data.param.responseMessage}}
+    </mat-label>
+  </p>
+  <div mat-dialog-actions>
+    <button mat-raised-button color="primary" (click)="verify(data.param.responseCode)">OK</button>
+  </div>
+</div>

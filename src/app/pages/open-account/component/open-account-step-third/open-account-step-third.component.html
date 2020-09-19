@@ -1,0 +1,92 @@
+<form [formGroup]="subcriptionFormGroup">
+  <br>
+  <mat-card>
+    <mat-card-title class="title">บริการอื่นๆ/Additional Services</mat-card-title>
+    <mat-card-content>
+      <mat-card class="example">
+        <mat-panel-title class="example">บริการ KKP e-Banking (บริการธนาคารทางอินเตอร์เน็ต)</mat-panel-title>
+        <br><br>
+
+        <span class="nowrapx">
+          <span class="nowrap">
+            <mat-form-field class="group text-width">
+              <mat-label>Email Address</mat-label>
+              <mat-select [(value)]="selectedEmail" (selectionChange)="changeEmail(selectedEmail)"
+                formControlName="refCodeEmailSeqCtrl" [disabled]="!checkReadonlyEmailList">
+                <mat-option *ngFor="let email of emailList" [value]="email.value">
+                  {{email.viewValue}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            &nbsp;
+            <mat-form-field *ngIf="selectedEmail === ''" appearance="inline" class="group text-width">
+              <mat-form-field class="group text-width">
+                <input matInput type="text" formControlName="refCodeEmailCtrl" [email]="true" (change)="change($event)"
+                  [disabled]="!checkReadonlyEmailList" required autocomplete="off">
+                <mat-error *ngIf="subcriptionFormGroup.get('refCodeEmailCtrl').hasError('required')">
+                  กรุณาระบุ Email Address
+                </mat-error>
+                <mat-error *ngIf="subcriptionFormGroup.get('refCodeEmailCtrl').hasError('email')">
+                  Email Address ไม่ถูกต้อง
+                </mat-error>
+              </mat-form-field>
+              <div *ngIf="checkEmailList">
+                <mat-error>
+                  Email Address มีอยู่แล้ว กรุณาระบุ Email Address ใหม่
+                </mat-error>
+              </div>
+            </mat-form-field>
+          </span>
+
+            &nbsp;
+
+            <span class="nowrap">
+              <mat-form-field class="group text-width">
+                <mat-label>โทรศัพท์มือถือ</mat-label>
+                <mat-select [(value)]="selectedMobile" (selectionChange)="changeMobile(selectedMobile)"
+                  formControlName="refCodeMobileSeqCtrl" [disabled]="!checkReadonlyMobileList">
+                  <mat-option *ngFor="let mobile of mobileList" [value]="mobile.value">
+                    {{mobile.viewValue}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              &nbsp;
+              <mat-form-field *ngIf="selectedMobile === ''" appearance="inline" class="group text-width">
+                <mat-form-field class="group text-width">
+                  <input matInput type="text" formControlName="refCodeMobileCtrl" (change)="change($event)" required
+                    [disabled]="!checkReadonlyMobileList" maxlength="10" autocomplete="off">
+                  <mat-error *ngIf="subcriptionFormGroup.get('refCodeMobileCtrl').hasError('required')">
+                    กรุณาระบุหมายเลขมือถือ
+                  </mat-error>
+                  <mat-error *ngIf="subcriptionFormGroup.get('refCodeMobileCtrl').hasError('pattern')">
+                    หมายเลขมือถือไม่ถูกต้อง
+                  </mat-error>
+                </mat-form-field>
+                <div *ngIf="checkMobileList">
+                  <mat-error>
+                    หมายเลขมือถือมีอยู่แล้ว กรุณาระบุ หมายเลขมือถือใหม่
+                  </mat-error>
+                </div>
+              </mat-form-field>
+            </span>
+          </span>
+
+      </mat-card>
+      <br>
+      <mat-card>
+        <mat-card-content class="description-size">
+          <u>หมายเหตุ</u> ธนาคารจะใช้หมายเลขโทรศัพท์มือถือ และ/หรือ Email Address ที่ระบุในการให้บริการนี้
+          สำหรับการใช้บริการ KKP e-Banking, บริการ KKP Phone Service และบริการทางอิเล็กทรอนิกส์อื่นๆ
+          ที่ลูกค้าสามารถเข้าใช้งานและ/หรือรับบริการได้ด้วยตนเองตามที่ธนาคารได้จัดให้มีขึ้นต่อไป (รวมเรียกว่า
+          "E-Service") และหากข้อมูลหมายเลขโทรศัพท์มือถือและ Email Address สำหรับการใช้บริการ E-Service
+          ตามที่ลูกค้าแจ้งข้างต้นแตกต่างจากที่เคยให้ไว้กับธนาคาร
+          ให้ถือว่าลูกค้าได้แจ้งความประสงค์ให้เปลี่ยนแปลงข้อมูลดังกล่าวกับทุกบริการ E-Service
+        </mat-card-content>
+      </mat-card>
+    </mat-card-content>
+    <mat-card-actions style="text-align:right">
+      <button mat-raised-button matStepperPrevious>Back</button>
+      <button mat-raised-button matStepperNext [disabled]="checkEmailList || checkMobileList">Next</button>
+    </mat-card-actions>
+  </mat-card>
+</form>

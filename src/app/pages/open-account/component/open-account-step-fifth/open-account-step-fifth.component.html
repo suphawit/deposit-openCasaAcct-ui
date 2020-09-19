@@ -1,0 +1,34 @@
+<form [formGroup]="fatcaFormGroup">
+  <br>
+  <mat-card class="examplex">
+    <mat-card-title class="title">
+      FATCA
+    </mat-card-title>
+    <mat-card class="example">
+      <table *ngFor="let fatcaContent of fatcaContents; index as i">
+        <tr>
+          <td class="example" style="width: 80% !important">
+            <p>{{fatcaContent.content.contentTh}}</p>
+            <p>{{fatcaContent.content.contentEn}}</p>
+          </td>
+          <td class="example" style="width: 12% !important">
+            <mat-radio-group aria-label="Select an option" formControlName="fatca{{i+1}}Ctrl" validation="required"
+              required class="example">
+              <mat-radio-button aria-selected="N" value="{{fatcaContent.content.answerList[0].answer.answerValue}}">
+                {{fatcaContent.content.answerList[0].answer.answerDesc}}
+              </mat-radio-button>
+              &nbsp;
+              <mat-radio-button value="{{fatcaContent.content.answerList[1].answer.answerValue}}">
+                {{fatcaContent.content.answerList[1].answer.answerDesc}}
+              </mat-radio-button>
+            </mat-radio-group>
+          </td>
+        </tr>
+      </table>
+      <mat-card-actions style="text-align:right">
+        <button mat-raised-button matStepperPrevious>Back</button>
+        <button mat-raised-button matStepperNext>Next</button>
+      </mat-card-actions>
+    </mat-card>
+  </mat-card>
+</form>

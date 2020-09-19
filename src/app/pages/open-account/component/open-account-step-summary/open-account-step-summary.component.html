@@ -1,0 +1,208 @@
+<!-- ========================== FORM SUMMSRY CHECK DATA DETAIL BEFORE SUBMIT INSEARCH TO DATABASE  ================================ -->
+<div *ngIf="checkForm">
+  <mat-card>
+    <mat-card-title class="title">Summary Detail</mat-card-title>
+    <mat-card-content>
+      <mat-card class="example">
+        <!-- <mat-card>
+          <mat-grid-list cols="4" rowHeight="80px">
+            <mat-grid-tile *ngFor="let info of openAccountInfos" [colspan]="info.cols" [rowspan]="info.rows"
+              [style.background]="info.color">
+              {{info.text}}
+            </mat-grid-tile>
+          </mat-grid-list>
+        </mat-card> -->
+        <mat-card>
+          <table>
+            <tr>
+              <td class="example" style="width: 15% !important">ชื่อ-นามสกุล</td>
+              <td class="example" style="width: 10% !important">{{ openAccountPreview.customerInfo.name }} </td>
+              <td class="example" style="width: 15% !important">เลขประจำตัวประชาชน/เลขหนังสือเดินทาง</td>
+              <td class="example" style="width: 10% !important">{{ openAccountPreview.customerInfo.idCard }}</td>
+            </tr>
+            <tr>
+              <p></p>
+            </tr>
+            <tr>
+              <td class="example" style="width: 15% !important">ชื่อบัญชี</td>
+              <td class="example" style="width: 20% !important">{{ openAccountPreview.accountInfo.accountNameTH }}</td>
+              <td class="example" style="width: 15% !important">ชื่อบัญชีภาษาอังกฤษ</td>
+              <td class="example" style="width: 20% !important">{{ openAccountPreview.accountInfo.accountNameEN }} </td>
+            </tr>
+          </table>
+        </mat-card>
+
+        <br>
+        <mat-grid-list cols="2" rowHeight="200px">
+          <mat-grid-tile>
+            <mat-card class="mat-card-inline example">
+              <p style="width: 90% !important;">สถานที่ติดต่อทางไปรษณีย์</p>
+              <mat-card-content class="example">
+                <p style="width: 90% !important;">{{openAccountPreview.customerInfo.address}}</p>
+              </mat-card-content>
+            </mat-card>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-card class="mat-card-inline example">
+              <p style="width: 94% !important;">หมายเลขโทรศัพท์และช่องทางการติดต่อทางอิเล็กทรอนิกส์</p>
+              <mat-card-content class="example">
+                <p style="width: 94% !important;">Email Address : {{openAccountPreview.customerInfo.email}}</p>
+                <p style="width: 94% !important;">Mobile : {{openAccountPreview.customerInfo.mobile}}</p>
+              </mat-card-content>
+            </mat-card>
+          </mat-grid-tile>
+        </mat-grid-list>
+
+        <mat-card class="example">
+          <p>ข้อมูลบัญชีเงินฝาก</p>
+          <mat-card-content class="example">
+            <p>ผลิตภัณฑ์ : {{openAccountPreview.accountInfo.accountProduct}}</p>
+            <p>วัตถุประสงค์การขอเปิดบัญชี : {{openAccountPreview.accountInfo.purpose}}</p>
+            <!-- <p>หลักฐานการรับฝากเงิน : {{statement}}</p> -->
+            <p>หลักฐานการรับฝากเงิน : {{openAccountPreview.accountInfo.accountStatement}}</p>
+          </mat-card-content>
+        </mat-card>
+
+        <br>
+
+        <mat-card *ngIf="isShow" class="example">
+          <p>บริการเสริมอื่นๆ</p>
+          <mat-card-content class="example">
+            <p>{{openAccountPreview.subscriptionInfo.productName}} : Email Address :
+              {{openAccountPreview.subscriptionInfo.email}} Mobile : {{openAccountPreview.subscriptionInfo.mobile}}</p>
+          </mat-card-content>
+        </mat-card>
+
+        <br>
+
+      </mat-card>
+    </mat-card-content>
+    <mat-card-actions style="text-align:right">
+      <button mat-raised-button matStepperPrevious>Back</button>
+      <button mat-raised-button type="button" (click)="openAccount()" [disabled]="checkBtn">Submit</button>
+    </mat-card-actions>
+  </mat-card>
+</div>
+
+<!-- ========================== FORM APPROVE AFTER SUBMIT FORM SERVICE INSEARCH DATA TO DATABASE ================================-->
+<div *ngIf="checkApproveForm">
+  <mat-card-title class="title">อนุมัติรายการคำขอเปิดบัญชี</mat-card-title>
+  <mat-card class="example">
+    <!-- <mat-card class="example">
+      <mat-grid-list cols="4" rowHeight="80px">
+        <mat-grid-tile *ngFor="let info of openAccountInfos" [colspan]="info.cols" [rowspan]="info.rows"
+          [style.background]="info.color">
+          {{info.text}}
+        </mat-grid-tile>
+      </mat-grid-list>
+    </mat-card> -->
+
+    <mat-card>
+      <table>
+        <tr>
+          <td class="example" style="width: 15% !important">ชื่อ-นามสกุล</td>
+          <td class="example" style="width: 10% !important">{{ openAccountPreview.customerInfo.name }} </td>
+          <td class="example" style="width: 15% !important">เลขประจำตัวประชาชน/เลขหนังสือเดินทาง</td>
+          <td class="example" style="width: 10% !important">{{ openAccountPreview.customerInfo.idCard }}</td>
+        </tr>
+        <tr>
+          <p></p>
+        </tr>
+        <tr>
+          <td class="example" style="width: 15% !important">ชื่อบัญชี</td>
+          <td class="example" style="width: 20% !important">{{ openAccountPreview.accountInfo.accountNameTH }}</td>
+          <td class="example" style="width: 15% !important">ชื่อบัญชีภาษาอังกฤษ</td>
+          <td class="example" style="width: 20% !important">{{ openAccountPreview.accountInfo.accountNameEN }} </td>
+        </tr>
+      </table>
+    </mat-card>
+    <br>
+
+    <mat-grid-list cols="2" rowHeight="200px">
+      <mat-grid-tile>
+        <mat-card class="mat-card-inline example">
+          <p style="width: 90% !important;">สถานที่ติดต่อทางไปรษณีย์</p>
+          <mat-card-content class="example">
+            <p style="width: 90% !important;">{{openAccountPreview.customerInfo.address}}</p>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-card class="mat-card-inline example">
+          <p style="width: 94% !important;">หมายเลขโทรศัพท์และช่องทางการติดต่อทางอิเล็กทรอนิกส์</p>
+          <mat-card-content class="example">
+            <p style="width: 94% !important;">Email Address : {{openAccountPreview.customerInfo.email}}</p>
+            <p style="width: 94% !important;">Mobile : {{openAccountPreview.customerInfo.mobile}}</p>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+    </mat-grid-list>
+
+    <mat-card class="example">
+      <p>ข้อมูลบัญชีเงินฝาก</p>
+      <mat-card-content class="example">
+        <p>ผลิตภัณฑ์ : {{openAccountPreview.accountInfo.accountProduct}}</p>
+        <p>วัตถุประสงค์การขอเปิดบัญชี : {{openAccountPreview.accountInfo.purpose}}</p>
+        <!-- <p>หลักฐานการรับฝากเงิน : {{statement}}</p> -->
+        <p>หลักฐานการรับฝากเงิน : {{openAccountPreview.accountInfo.accountStatement}}</p>
+      </mat-card-content>
+    </mat-card>
+
+    <br>
+
+    <mat-card *ngIf="isShow" class="example">
+      <p>บริการเสริมอื่นๆ</p>
+      <mat-card-content class="example">
+        <p>{{openAccountPreview.subscriptionInfo.productName}} : Email Address :
+          {{openAccountPreview.subscriptionInfo.email}} Mobile : {{openAccountPreview.subscriptionInfo.mobile}}</p>
+      </mat-card-content>
+    </mat-card>
+
+    <br>
+
+    <form [formGroup]="approveFormGroup">
+      <mat-card class="example">
+        <p style="text-align:center"><strong><u>อนุมัติรายการ</u></strong></p>
+        <mat-card-content style="text-align:center">
+          <mat-label class="example"><strong>UserName</strong></mat-label>
+          &nbsp;
+          <mat-form-field>
+            <input matInput type="text" formControlName="userId" required autocomplete="off">
+            <mat-error *ngIf="approveFormGroup.get('userId').hasError('required')">
+              กรุณาระบุ UserName
+            </mat-error>
+          </mat-form-field>
+
+          <br>
+
+          <mat-label class="example"><strong>Password</strong></mat-label>
+          &nbsp;
+          <mat-form-field>
+            <input matInput type="password" formControlName="password" required autocomplete="off">
+            <mat-error *ngIf="approveFormGroup.get('userId').hasError('required')">
+              กรุณาระบุ Password
+            </mat-error>
+          </mat-form-field>
+
+          <br>
+          &nbsp;&nbsp;&nbsp;
+          <mat-label class="example"><strong>เหตุผล</strong></mat-label>
+          &nbsp;&nbsp;
+          <mat-form-field class="example-full-width">
+            <textarea matInput formControlName="authorReason" maxlength="100" style="resize: none !important" required
+              autocomplete="off"></textarea>
+            <mat-error *ngIf="approveFormGroup.get('authorReason').hasError('required') && checkReason">
+              กรุณาระบุ เหตุผล
+            </mat-error>
+          </mat-form-field>
+        </mat-card-content>
+        <mat-card-actions style="text-align:center">
+          <button mat-raised-button color="primary" (click)="onSubmitOpenAccountApprove('approved')"
+            [disabled]="checkBtnApprove"><span class="button-size">อนุมัติรายการ</span></button>
+          <button mat-raised-button color="warn" (click)="onSubmitOpenAccountApprove('rejected')"
+            [disabled]="checkBtnApprove"><span class="button-size">ยกเลิกรายการ</span></button>
+        </mat-card-actions>
+      </mat-card>
+    </form>
+  </mat-card>
+</div>

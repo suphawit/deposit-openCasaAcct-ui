@@ -1,0 +1,18 @@
+<app-header></app-header>
+<mat-card>
+    <mat-card-header>
+        <mat-card-title><b>ไม่สามารถทำรายการได้</b></mat-card-title>
+    </mat-card-header>
+    <p><strong></strong></p>
+    <mat-card-content>
+        <div>
+            <mat-label>Reference No : </mat-label>&nbsp;&nbsp;<mat-label>{{callBackList.data.referenceNo}}</mat-label>
+            <p><strong></strong></p>
+            <mat-label>{{callBackList.data.respCode}} : </mat-label>&nbsp;&nbsp;<mat-label>{{callBackList.data.respMsg}}
+            </mat-label>
+        </div>
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-raised-button color="primary" (click)="endCallBack()">OK</button>
+    </mat-card-actions>
+</mat-card>

@@ -1,0 +1,63 @@
+.example-card
+  max-width: 975px
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px)
+  .title
+    font-size: 15px !important
+  /deep/ .mat-horizontal-stepper-header .mat-step-label
+    font-size: 10px !important
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px)
+  .title
+    font-size: 18px !important
+  /deep/ .mat-horizontal-stepper-header .mat-step-label
+    font-size: 12px !important
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px)
+  .title
+    font-size: 20px !important
+  /deep/ .mat-horizontal-stepper-header .mat-step-label
+    font-size: 13px !important
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px)
+  .title
+    font-size: 22px !important
+  /deep/ .mat-horizontal-stepper-header .mat-step-label
+    font-size: 14px !important
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px)
+ .title
+    font-size: 30px !important
+ /deep/ .mat-horizontal-stepper-header .mat-step-label
+    font-size: 14px !important
+
+/deep/ .mat-horizontal-stepper-header-container .mat-horizontal-stepper-header .mat-step-icon
+  background-color: #635F98
+/deep/ .mat-horizontal-stepper-content
+          .mat-card
+            form
+              .mat-card-actions
+                .mat-raised-button.mat-primary
+                  background-color: #635F98
+                .mat-raised-button.mat-warn
+                  background-color: #ADACB9
+                  color: black
+/deep/ .ng-star-inserted
+        .mat-card
+          .mat-card-actions
+            .mat-raised-button.mat-primary
+              background-color: #635F98
+            .mat-raised-button.mat-accent:not([disabled])
+              background-color: #ADACB9
+              color: black
+
+/deep/ .mat-stepper-horizontal .mat-horizontal-content-container
+  padding-top: 0px !important
+  padding-left: 5px !important
+  padding-right: 5px !important
+  padding-bottom: 0px !important

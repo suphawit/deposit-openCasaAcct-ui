@@ -1,0 +1,37 @@
+<form [formGroup]="termAndConditionFormGroup">
+  <br>
+  <mat-card>
+      <mat-card-title class="title">Term & Condition</mat-card-title>
+    <mat-card class="example">
+      <mat-card-content class="example">
+        <div *ngFor="let termAndCondContents of termAndCondContent">
+          <p [innerHTML]="termAndCondContents.content.contentTh"></p>
+        </div>
+        <br>
+        <mat-radio-group aria-label="Select an option" formControlName="acceptTermAndConCtrl" validation="required"
+          required>
+          <span *ngFor="let answerData of answerDatas">
+            <mat-radio-button class="customer-group example" value="{{answerData.answer.answerValue}}">{{answerData.answer.answerDesc}}
+            </mat-radio-button>
+          </span>
+        </mat-radio-group>
+      </mat-card-content>
+    </mat-card>
+    <br>
+    <mat-card class="example">
+      <mat-card-content class="example">
+        <div *ngFor="let serviceContents of serviceContent">
+          <p [innerHTML]="serviceContents.content.contentTh"></p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card-actions style="text-align:right">
+      <button mat-raised-button matStepperPrevious>Back</button>
+      <button *ngIf="termAndConditionFormGroup.get('acceptTermAndConCtrl').value === 'N'" mat-raised-button
+        (click)="onSubmit()">Next</button>
+      <button
+        *ngIf="termAndConditionFormGroup.get('acceptTermAndConCtrl').value === 'Y' || termAndConditionFormGroup.get('acceptTermAndConCtrl').value === ''"
+        mat-raised-button matStepperNext>Next</button>
+    </mat-card-actions>
+  </mat-card>
+</form>

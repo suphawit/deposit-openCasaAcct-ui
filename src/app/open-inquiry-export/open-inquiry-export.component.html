@@ -1,0 +1,178 @@
+<app-header></app-header>
+<h1>รายการเปิดบัญชีเงินฝาก</h1>
+<form [formGroup]="searchsForm" (ngSubmit)="search()">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title><b>ค้นหาจาก</b></mat-card-title>
+    </mat-card-header>
+    <mat-label><b>ชื่อ-นามสกุล : </b></mat-label>&nbsp;
+    <mat-form-field>
+      <input matInput type="text" placeholder="" formControlName="fullNameCtrl" (change)="change()" autocomplete="off">
+    </mat-form-field>
+
+    <mat-label><b>Teller ID : </b></mat-label>&nbsp;
+    <mat-form-field>
+      <input matInput type="text" placeholder="" formControlName="tellerIdCtrl" (change)="change()" autocomplete="off">
+    </mat-form-field><br>
+
+    <mat-label><b>ประเภทบัญชี : </b></mat-label>&nbsp;
+    <mat-form-field>
+      <mat-select formControlName="productTypeCtrl" placeholder="" [(value)]="selectedproductType"
+        (selectionChange)="change()">
+        <mat-option *ngFor="let productType of productTypes" [value]="productType.value" autocomplete="off">
+          {{productType.viewValue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-label><b>เลขที่บัญชี : </b></mat-label>&nbsp;
+    <mat-form-field>
+      <input matInput type="text" placeholder="" formControlName="accountNoCtrl" (change)="change()" autocomplete="off">
+    </mat-form-field>
+
+    <mat-label><b>วันที่เปิดบัญชี : </b></mat-label>&nbsp;
+    <mat-form-field>
+      <input matInput formControlName="statusDateCtrl" [matDatepicker]="picker3" (dateChange)="change()" readonly
+        [min]="minDate">
+      <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+      <mat-datepicker #picker3></mat-datepicker>
+    </mat-form-field><br>
+
+    <mat-label><b>ประเภทเอกสารแสดงตน : </b></mat-label>&nbsp;
+    <mat-form-field>
+      <mat-select formControlName="identificationDocumentTypeCtrl" name="cusList"
+        (selectionChange)="changCustomertValue($event.value)" (selectionChange)="change()">
+        <mat-option value=" ">-- กรุณาเลือก --</mat-option>
+        <mat-option *ngFor="let cusList of customerLists" [value]="cusList.value">
+          {{cusList.viewValue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-label><b>เลขที่เอกสารแสดงตัวตน : </b></mat-label>&nbsp;
+    <mat-form-field>
+      <input matInput type="text" placeholder="" formControlName="idCardNoCtrl" required (change)="change()"
+        autocomplete="off">
+      <mat-error *ngIf="searchsForm.hasError('required', 'idCardNoCtrl')">
+        กรุณาระบุ เลขที่เอกสารแสดงตัวตน
+      </mat-error>
+    </mat-form-field>
+
+    <span *ngIf="checkFormCount">
+      <mat-label><b>ประเทศที่ออกเอกสารแสดงตน : </b></mat-label>&nbsp;
+      <mat-form-field>
+        <mat-select formControlName="countryTypeCtrl" name="countryList" (selectionChange)="change()">
+          <mat-option *ngFor="let countryList of countryLists" [value]="countryList.value">
+            {{countryList.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field><br>
+    </span>
+
+    <mat-card-actions style="text-align:left">
+      <button mat-raised-button color="primary" type="submit">Search</button>
+      <button mat-raised-button color="" type="button" (click)="clearForm()">Clear</button>
+      <button mat-raised-button color="" type="button" (click)="callBack(dataInquiryByLogLd)">Back</button>
+    </mat-card-actions>
+  </mat-card>
+</form>
+
+<br>
+<div *ngIf="dataTable">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title><b>ข้อมูลรายการเปิดบัญชีเงินฝาก</b></mat-card-title>
+    </mat-card-header>
+    <div *ngIf="dataRes.searchResultList !== '' || dataRes.searchResultList !== null">
+      <div class="example-container mat-elevation-z8">
+        <table mat-table #table [dataSource]="dataSource">
+
+          <ng-container matColumnDef="productType">
+            <th mat-header-cell *matHeaderCellDef>ประเภทบัญชี</th>
+            <td mat-cell *matCellDef="let dataRes"><span
+                matTooltip="{{dataRes.productName}}">{{dataRes.productName}}</span></td>
+          </ng-container>
+
+          <ng-container matColumnDef="accountNo">
+            <th mat-header-cell *matHeaderCellDef>เลขที่บัญชี</th>
+            <td mat-cell *matCellDef="let dataRes"><span matTooltip="{{dataRes.accountNo}}">{{dataRes.accountNo}}</span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="accountName">
+            <th mat-header-cell *matHeaderCellDef>ชื่อบัญชี</th>
+            <td mat-cell *matCellDef="let dataRes"><span matTooltip="{{dataRes.accountName}}"
+                matTooltipClass="example-tooltip-red">{{dataRes.accountName}}</span></td>
+          </ng-container>
+
+          <ng-container matColumnDef="idTypeDesc">
+            <th mat-header-cell *matHeaderCellDef>ประเภทเอกสารแสดงตัวตน</th>
+            <td mat-cell *matCellDef="let dataRes"><span
+                matTooltip="{{dataRes.idTypeDesc}}">{{dataRes.idTypeDesc}}</span></td>
+          </ng-container>
+
+          <ng-container matColumnDef="idNo">
+            <th mat-header-cell *matHeaderCellDef>เลขที่เอกสารแสดงตัวตน</th>
+            <td mat-cell *matCellDef="let dataRes"><span matTooltip="{{dataRes.idNo}}">{{dataRes.idNo}}</span></td>
+          </ng-container>
+
+          <ng-container matColumnDef="txnDate">
+            <th mat-header-cell *matHeaderCellDef>วันที่เปิดบัญชี</th>
+            <td mat-cell *matCellDef="let dataRes"><span
+                matTooltip="{{dataRes.txnDate | date : 'dd/MM/y' }}">{{dataRes.txnDate | date : "dd/MM/y" }}</span></td>
+          </ng-container>
+
+          <ng-container matColumnDef="fetcaStatus">
+            <th mat-header-cell *matHeaderCellDef>FATCA STATUS</th>
+            <td mat-cell *matCellDef="let dataRes"><span
+                matTooltip="{{dataRes.fatcaStatus}}">{{dataRes.fatcaStatus}}</span></td>
+          </ng-container>
+
+          <ng-container matColumnDef="statusSendMail">
+            <th mat-header-cell *matHeaderCellDef>สถานะการส่ง E-mail</th>
+            <td mat-cell *matCellDef="let dataRes">
+              <span *ngIf="dataRes.sendMailStatus === '-' && dataRes.emailTemplateId !== '-'" matTooltip="pending">pending</span>
+              <span *ngIf="dataRes.sendMailStatus !== '-'"
+                matTooltip="{{dataRes.sendMailStatus}}">{{dataRes.sendMailStatus}}</span>
+            </td>
+          </ng-container>
+
+          <!-- <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Action</th>
+            <td mat-cell *matCellDef="let dataRes">
+              <button mat-raised-button color="accent" (click)="exportSignature(dataRes)">Export Signature</button>
+            </td>
+          </ng-container> -->
+
+          <!-- <ng-container matColumnDef="resend">
+            <th mat-header-cell *matHeaderCellDef>Resend E-mail</th>
+            <td mat-cell *matCellDef="let dataRes">
+              <button mat-raised-button color="accent" (click)="resendEmail(dataRes)">Resend E-mail</button>
+            </td>
+          </ng-container> -->
+
+          <ng-container matColumnDef="resend">
+            <th mat-header-cell *matHeaderCellDef>Resend E-mail</th>
+            <td mat-cell *matCellDef="let dataRes">
+              <span *ngIf="dataRes.emailTemplateId !== '-'">
+                <button mat-raised-button color="accent" (click)="resendEmail(dataRes.transId)"
+                  [disabled]="checkBtnsend">Resend E-mail</button>
+              </span>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <div *ngIf="dataRes.length === 0 || dataRes === '' || dataRes === null">
+          <p style="text-align: center !important">ไม่มีข้อมูล</p>
+        </div>
+
+        <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+          [pageIndex]="currentPage" (page)="pageEvent = $event" (page)="search($event)">
+        </mat-paginator>
+        <br>
+      </div>
+    </div>
+  </mat-card>
+</div>

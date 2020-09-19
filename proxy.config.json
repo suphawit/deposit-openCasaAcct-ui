@@ -1,0 +1,8 @@
+{
+    "/EAPP/eapp_service": {
+        "target": "https://10.202.105.72",
+        "secure": false,
+        "logLevel": "debug",
+        "changeOrigin": true
+    }
+}

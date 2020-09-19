@@ -1,0 +1,82 @@
+<h1>อนุมัติรายการคำขอเปิดบัญชี</h1>
+<mat-card>
+  <mat-card>
+    <mat-grid-list cols="4" rowHeight="2:0.3">
+      <mat-grid-tile
+          *ngFor="let info of openAccountInfos"
+          [colspan]="info.cols"
+          [rowspan]="info.rows"
+          [style.background]="info.color">
+        {{info.text}}
+      </mat-grid-tile>
+    </mat-grid-list>
+  </mat-card>
+  <br>
+  <mat-grid-list cols="2" rowHeight="200px">
+    <mat-grid-tile>
+      <mat-card class="mat-card-inline">
+        <p>สถานที่ติดต่อทางไปรษณีย์</p>
+        <mat-card-content>
+          <p>{{openAccountPreview.customerInfo.address}}</p>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <mat-card class="mat-card-inline">
+        <p>หมายเลขโทรศัพท์และช่องทางการติดต่อทางอิเล็กทรอนิกส์</p>
+        <mat-card-content>
+          <p>Email Address : {{openAccountPreview.customerInfo.email}}</p>
+          <p>Mobile : {{openAccountPreview.customerInfo.mobile}}</p>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+  <mat-card>
+    <p>ข้อมูลบัญชีเงินฝาก</p>
+    <mat-card-content>
+      <p>ผลิตภัณฑ์ : {{openAccountPreview.accountInfo.accountProduct}}</p>
+      <p>วัตถุประสงค์การขอเปิดบัญชี : {{openAccountPreview.accountInfo.purpose}}</p>
+      <p>หลักฐานการรับฝากเงิน : {{statement}}</p>
+      <!-- <p>หลักฐานการรับฝากเงิน : {{openAccountPreview.accountInfo.accountStatement}}</p> -->
+    </mat-card-content>
+  </mat-card>
+  <br>
+  <mat-card *ngIf="isShow">
+    <p>บริการเสริมอื่นๆ</p>
+    <mat-card-content>
+      <p>{{openAccountPreview.subscriptionInfo.productName}} : Email Address : {{openAccountPreview.subscriptionInfo.email}} Mobile : {{openAccountPreview.subscriptionInfo.mobile}}</p>
+    </mat-card-content>
+  </mat-card>
+  <br>
+  <form [formGroup]="approveFormGroup">
+    <mat-card>
+      <p style="text-align:center"><strong><u>อนุมัติรายการ</u></strong></p>
+      <mat-card-content style="text-align:center">
+          <div>
+            <mat-label><strong>UserName</strong></mat-label>
+            &nbsp;
+            <mat-form-field>
+              <input matInput type="text" formControlName="userId" required>
+              <mat-error *ngIf="approveFormGroup.get('userId').hasError('required')">
+                กรุณาระบุ UserName
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-label><strong>Password</strong></mat-label>
+            &nbsp;
+            <mat-form-field>
+              <input matInput type="password" formControlName="password" required>
+              <mat-error *ngIf="approveFormGroup.get('userId').hasError('required')">
+                กรุณาระบุ Password
+              </mat-error>
+            </mat-form-field>
+          </div>
+      </mat-card-content>
+      <mat-card-actions style="text-align:center">
+        <button mat-raised-button color="primary" (click)="onSubmitOpenAccountApprove('approved')">อนุมัติรายการ</button>
+        <button mat-raised-button color="warn" (click)="onSubmitOpenAccountApprove('rejected')">ยกเลิกรายการ</button>
+      </mat-card-actions>
+    </mat-card>
+  </form>
+</mat-card>

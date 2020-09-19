@@ -1,0 +1,138 @@
+<form [formGroup]="requestOpenAccountFormGroup">
+  <br>
+  <mat-card class="example">
+    <mat-card-title class="title">คำขอเปิดบัญชีเงินฝากและสมัครใช้บริการด้านการเงินผ่านช่องทางอิเล็กทรอนิกส์
+    </mat-card-title>
+    <br>
+
+    <mat-radio-group aria-label="Select an option" formControlName="customerTypeCtrl">
+      <mat-label>ประเภทลูกค้า</mat-label>
+      &nbsp;
+      <mat-radio-button class="customer-group" *ngFor="let customerType of customerTypes" [value]="customerType.value">
+        {{customerType.viewValue}}
+      </mat-radio-button>
+    </mat-radio-group>
+    <br><br>
+    <div class="examplex">
+      <span class="form-group">
+        <mat-label class="account-group">ประเภทบัญชี/Account Type</mat-label>
+        &nbsp;
+        <mat-form-field class="account-group">
+          <mat-select class="mat-select-panelx" formControlName="accountTypeCtrl"
+            (selectionChange)="changeProductType($event.value)" required>
+            <mat-option *ngFor="let productType of productTypes" [value]="productType.value">
+              {{productType.viewValue}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="requestOpenAccountFormGroup.get('accountTypeCtrl').hasError('required')">
+            กรุณาระบุประเภทบัญชี/Account Type
+          </mat-error>
+        </mat-form-field>
+      </span>
+
+      <ng-container *ngIf="checkForm">
+        <span class="form-group">
+          <mat-label class="product-group">ชื่อผลิตภัณฑ์/Product Name</mat-label>
+          &nbsp;
+          <mat-form-field class="product-group">
+            <mat-select class="mat-select-panelx" formControlName="productCodeCtrl" required>
+              <mat-option *ngFor="let productDetail of productDetails" [value]="productDetail.value">
+                {{productDetail.viewValue}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="requestOpenAccountFormGroup.get('productCodeCtrl').hasError('required')">
+              กรุณาระบุชื่อผลิตภัณฑ์/Product Name
+            </mat-error>
+          </mat-form-field>
+        </span>
+      </ng-container>
+    </div>
+
+    <div class="examplex">
+      <span>
+        <mat-label>วัตถุประสงค์การเปิดบัญชี/Purpose of Account Opening</mat-label>
+        &nbsp;
+        <mat-form-field class="purpose">
+          <mat-select class="mat-select-panelx" formControlName="purposeAccountOpeningCtrl"
+            (selectionChange)="changPurpose($event.value)" required>
+            <mat-option *ngFor="let purpose of purposes" [value]="purpose.value">
+              {{purpose.viewValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </span>
+
+      &nbsp;
+
+      <mat-form-field *ngIf="dataChangPurpose === '99'" class="purpose-des">
+        <input class="height-inputForm" matInput type="text" formControlName="purposeAccountOpeningDescCtrl"
+          maxlength="40" required autocomplete="off">
+        <mat-error *ngIf="requestOpenAccountFormGroup.get('purposeAccountOpeningDescCtrl').hasError('required')">
+          กรุณาระบุวัตถุประสงค์การเปิดบัญชี/Purpose of Account Opening
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="examplex">
+      <span class="form-group">
+        <mat-label class="name-th">ชื่อบัญชีภาษาไทย</mat-label>
+        &nbsp;
+        <mat-form-field class="name-th">
+          <input class="height-inputForm" matInput type="text" readonly="false" formControlName="accountNameCtrl"
+            maxlength="200" required autocomplete="off">
+          <mat-error *ngIf="requestOpenAccountFormGroup.get('accountNameCtrl').hasError('required')">กรุณาระบุชื่อบัญชี
+            ภาษาไทย</mat-error>
+          <mat-error *ngIf="requestOpenAccountFormGroup.get('accountNameCtrl').hasError('pattern')">
+            ชื่อบัญชีไม่ถูกต้อง/กรุณาระบุชื่อบัญชี เป็น ภาษาไทย</mat-error>
+        </mat-form-field>
+      </span>
+
+      <span class="form-group">
+        <mat-label class="name-en">ชื่อบัญชีภาษาอังกฤษ</mat-label>
+        &nbsp;
+        <mat-form-field class="name-en">
+          <input class="height-inputForm" matInput type="text" readonly="false" formControlName="accountEngNameCtrl"
+            maxlength="200" required autocomplete="off">
+          <mat-error *ngIf="requestOpenAccountFormGroup.get('accountEngNameCtrl').hasError('required')">
+            กรุณาระบุชื่อบัญชี ภาษาอังกฤษ
+          </mat-error>
+          <mat-error *ngIf="requestOpenAccountFormGroup.get('accountEngNameCtrl').hasError('pattern')">
+            ชื่อบัญชีไม่ถูกต้อง/กรุณาระบุชื่อบัญชี เป็น ภาษาอังกฤษ</mat-error>
+        </mat-form-field>
+      </span>
+    </div>
+    <br>
+    <mat-label>หลักฐานการรับฝากเงิน</mat-label>
+    <br><br><br>
+    <mat-radio-group aria-label="Select an option" formControlName="statementTypeCtrl">
+      <mat-radio-button class="customer-group" *ngFor="let statementType of statementTypes"
+        [value]="statementType.value">
+        {{statementType.viewValue}}
+      </mat-radio-button>
+    </mat-radio-group>
+    
+    <br><br>
+    <mat-label>Relation Manager (Office Id)</mat-label>
+    &nbsp;
+    <mat-form-field class="name-en">
+      <input class="height-inputForm" matInput type="text" readonly="false" formControlName="officerCode" maxlength="10"
+        autocomplete="off">
+    </mat-form-field>
+    <br>
+    <mat-card class="example-card">
+      <mat-card-content class="example">
+        <u>หมายเหตุ</u> สำหรับบัญชีเงินฝากประจำ KKP Free 55up ข้าพเจ้ายืนยันว่า
+        ข้าพเจ้ามีความประสงค์จะขอใช้สิทธิยกเว้นภาษีเงินได้บุคคลธรรมดา
+        สำหรับเงินได้พึงประเมินที่เป็นดอกเบี้ยเงินฝากธนาคารประเภทเงินฝากประจำที่มีระยะเวลาการฝากตั้งแต่ 1 ปีขึ้นไป
+        ซึ่งได้รับดอกเบี้ยเงินฝากจากบัญชีดังกล่าวข้างต้นรวมกับบัญชีเงินฝากประจำทุกประเภทเป็นจำนวนรวมกันทั้งสิ้นไม่เกิน
+        30,000 บาทตลอดปีภาษี โดยขณะรับดอกเบี้ยผู้ฝากมีอายุไม่ต่ำกว่า 55 ปีบริบูรณ์ ตามหลักเกณฑ์ วิธีการ
+        และเงื่อนไขของกฎกระทรวงที่ออกตามความในประมวลรัษฎากร ว่าด้วยการยกเว้นรัษฎากร
+        และ/หรือประกาศอธิบดีกรมสรรพากรที่เกี่ยวข้องประกาศกำหนด
+      </mat-card-content>
+    </mat-card>
+    <mat-card-actions style="text-align:right">
+      <button mat-raised-button matStepperPrevious>Back</button>
+      <button mat-raised-button matStepperNext>Next</button>
+    </mat-card-actions>
+  </mat-card>
+</form>

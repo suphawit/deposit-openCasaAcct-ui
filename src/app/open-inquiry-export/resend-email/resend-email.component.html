@@ -1,0 +1,25 @@
+<h1>Resend E-mail</h1>
+<mat-card>
+  <mat-card-content>
+    <div>
+      <mat-label><b>เลขที่บัญชี : </b></mat-label>&nbsp;&nbsp;<mat-label>{{dataDetail.accountNo}}</mat-label>
+      <p><strong></strong></p>
+      <mat-label><b>ชื่อบัญชี : </b></mat-label>&nbsp;&nbsp;<mat-label>{{dataDetail.accountNameTh}}</mat-label>
+      <p><strong></strong></p>
+      <mat-label><b>ประเภทบัญชี : </b></mat-label>&nbsp;&nbsp;<mat-label>{{dataDetail.productNameEn}}</mat-label>
+      <p><strong></strong></p>
+      <mat-label><b>{{dataDetail.idTypeDesc}} : </b></mat-label>&nbsp;&nbsp;<mat-label>{{dataDetail.idNo}}</mat-label>
+      <p><strong></strong></p>
+      <mat-label><b>E-mail ณ วันที่เปิดบัญชี : </b></mat-label>&nbsp;&nbsp;<mat-label>{{dataDetail.email}}</mat-label>
+      <p><strong></strong></p>
+      <mat-label><b>E-mail ปัจจุบัน : </b></mat-label>&nbsp;&nbsp;<mat-label>{{dataDetail.emailCbs}}</mat-label>
+      <p><strong></strong></p>
+      <mat-label><b>วันที่เปิดบัญชี : </b></mat-label>&nbsp;&nbsp;<mat-label>{{dataDetail.txnDate | date : "dd/MM/y"}}
+      </mat-label>
+    </div>
+  </mat-card-content>
+  <mat-card-actions>
+    <button *ngIf="dataDetail.emailCbs" mat-raised-button color="primary" (click)="resendEmail()">Resend E-mail</button>
+    <button mat-raised-button color="" (click)="goToBack()">Back</button>
+  </mat-card-actions>
+</mat-card>
